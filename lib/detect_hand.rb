@@ -1,8 +1,9 @@
+require 'byebug'
+
 class DetectHand
 
   def initialize(hand)
-    byebug
-    @hand  = hand_sort(hand[:cards])
+    @hand  = hand_sort(hand)
     @ranks = @hand.map(&:rank)
     @suits = @hand.map(&:suit)
   end
@@ -10,14 +11,22 @@ class DetectHand
   def call
     royal_flush? ||
       straight_flush? ||
-      four_of_a_kind?
+      four_of_a_kind? ||
+      full_house? ||
+      flush? ||
+      straight? ||
+      three_of_a_kind? ||
+      two_pair? ||
+      one_pair? ||
+      high_card?
   end
 
 private
 attr_reader :hand, :ranks, :suits
 
   def royal_flush?
-    return if ranks != %i[ ten jack queen king ace ]
+    return unless suits.uniq.count == 1 &&
+      ranks == %i[ ten jack queen king ace ]
     :royal_flush
   end
 
@@ -33,33 +42,39 @@ attr_reader :hand, :ranks, :suits
   end
 
   def full_house?
-    return :full_house if ranks.uniq.count == 2
+    return unless ranks.uniq.count == 2
+    :full_house
   end
 
   def flush?
-    return true if suits.uniq.count == 1
+    return unless suits.uniq.count == 1
+    :flush
   end
 
   def straight?
-    return true if PokerCard::WINNING_ORDER.each_cons(5).to_a.include?(ranks)
+    return unless PokerCard::WINNING_ORDER.each_cons(5).to_a.include?(ranks)
+    :straight
   end
 
   def three_of_a_kind?
-    return true if ranks.detect{|r| ranks.count(r) > 2}
+    return unless ranks.detect{|r| ranks.count(r) > 2}
+    :three_of_a_kind
   end
 
   def two_pair?
-    return true if ranks.map{|r| ranks.count(r) == 2}.
+    return unless ranks.map{|r| ranks.count(r) == 2}.
       select{|val| val == true}.count == 4
+    :two_pair
   end
 
   def one_pair?
-    return true if ranks.map{|r| ranks.count(r) == 2}.
+    return unless ranks.map{|r| ranks.count(r) == 2}.
       select{|val| val == true}.count == 2
+    :one_pair
   end
 
   def high_card?
-     return true
+    @hand[4].to_s
   end
 
   def hand_sort(hand)
