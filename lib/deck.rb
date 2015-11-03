@@ -1,12 +1,15 @@
 class Deck
+  SUITS = %i[hearts diamonds clubs spades]
+  RANKS = %i[two three four five six seven eight nine ten jack queen king ace]
+
   attr_reader :cards
 
   def initialize
-    @cards = cards.build
+    @cards = RANKS.flat_map { |rank| SUITS.map {|suit| Card.new(rank, suit) } }.shuffle
   end
 
   def card_count
-    cards.count
+    cards.to_a.count
   end
 
   def draw(num=1)
@@ -17,9 +20,4 @@ class Deck
     cards.shuffle
   end
 
-  private
-
-  def cards
-    @cards ||= Cards.new
-  end
 end

@@ -1,0 +1,15 @@
+/Users/Tovah/.rubies/ruby-2.2.2/bin/ruby -r ./siteconf20151028-89180-17drvfm.rb extconf.rb
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling breakpoint.c
+compiling byebug.c
+compiling context.c
+compiling locker.c
+compiling threads.c
+linking shared-object byebug/byebug.bundle
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 byebug.bundle ./.gem.20151028-89180-16tgwze/byebug
