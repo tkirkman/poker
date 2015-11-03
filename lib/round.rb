@@ -29,9 +29,8 @@ class Round
 
   def last
     river  = add_cards
-    score_hands
-    #winning_hand = HandScoring.call(score_hands).first
-    #announce_winner(winning_hand)
+    winning_order = HandScoring.call(score_hands)
+    announce_winning_hand_order(winning_order)
   end
 
 private
@@ -65,8 +64,9 @@ private
     end
   end
 
-  def announce_winner(hand)
-
+  def announce_winning_hand_order(winning_order)
+    winning_order.each do |order|
+      p "#{order[:name]} finished next with a #{order[:hand]}"
+    end
   end
-
 end
