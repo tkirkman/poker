@@ -15,8 +15,8 @@ module HandScoring
   def scoring_sort(hand)
     hand.sort do |a, b|
       if a[:hand][0] == b[:hand][0]
-        PokerCard::WINNING_ORDER.index(a[:hand][1]) <=> PokerCard::WINNING_ORDER.index(b[:hand][1])
-        HAND_WINNING_ORDER.index(a[:hand][0]) <=> HAND_WINNING_ORDER.index(b[:hand][0])
+        HAND_WINNING_ORDER.index(b[:hand][0]) <=> HAND_WINNING_ORDER.index(a[:hand][0])
+        PokerCard::WINNING_ORDER.index(b[:hand][1]) <=> PokerCard::WINNING_ORDER.index(a[:hand][1])
       else
         HAND_WINNING_ORDER.index(a[:hand][0]) <=> HAND_WINNING_ORDER.index(b[:hand][0])
       end
