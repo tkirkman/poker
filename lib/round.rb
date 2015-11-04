@@ -65,8 +65,16 @@ private
   end
 
   def announce_winning_hand_order(winning_order)
+    winner = winning_order.shift
+    next_up = winning_order.first
+    if winner[:hand] == next_up[:hand]
+      p "Congrats #{winner[:name]} and #{next_up[:name]}! You have tied for the win with #{winner[:hand][0]} and #{winner[:hand][1]} high."
+      winning_order.shift
+    else
+      p "Congrats #{winner[:name]}! You have won the hand with #{winner[:hand][0]} and #{winner[:hand][1]} high."
+    end
     winning_order.each do |order|
-      p "#{order[:name]} finished next with a #{order[:hand]}"
+      p "#{order[:name]} finished next with #{order[:hand][0]} and #{order[:hand][1]} high"
     end
   end
 end
